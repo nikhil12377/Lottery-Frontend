@@ -71,39 +71,42 @@ export const LotteryEntrance = () => {
   }
 
   useEffect(() => {
-    if (isWeb3Enabled) {
+    if (isWeb3Enabled && chainID === 31337) {
       updateUI();
     }
   }, [isWeb3Enabled]);
   return (
-    <>
+    <div className=" inline-block p-20">
       {lotteryAddress ? (
-        <div>
-          <button
-            className="bg-blue-500 hover:bg-blue-700 p-3 rounded text-white font-bold"
-            onClick={async () =>
-              await enterLottery({
-                onSuccess: handleSuccess,
-                onError: (error) => console.log(error),
-              })
-            }
-            disabled={isLoading || isFetching}
-          >
-            {isLoading || isFetching ? (
-              <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
-            ) : (
-              <div>Enter Lottery</div>
-            )}
-          </button>
+        <>
+          <div className="heading">Welcome To Decentralized Lottery</div>
           <div>
-            LotteryEntrance with {ethers.utils.formatEther(entranceFee)} fee
+            Lottery entrance fee is {ethers.utils.formatEther(entranceFee)}
           </div>
-          <div>Players: {numberOfPlayers}</div>
+          <div>Number Of Players Joined: {numberOfPlayers}</div>
           <div>Recent Winner: {recentWinner}</div>
-        </div>
+          <div className="flex py-6 justify-center">
+            <button
+              className="submit bg-blue-500 hover:bg-blue-700 p-3 rounded text-white font-bold"
+              onClick={async () =>
+                await enterLottery({
+                  onSuccess: handleSuccess,
+                  onError: (error) => console.log(error),
+                })
+              }
+              disabled={isLoading || isFetching}
+            >
+              {isLoading || isFetching ? (
+                <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+              ) : (
+                <div>Enter Lottery</div>
+              )}
+            </button>
+          </div>
+        </>
       ) : (
         <div>No Lottery Contract Detected</div>
       )}
-    </>
+    </div>
   );
 };
