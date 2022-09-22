@@ -71,7 +71,7 @@ export const LotteryEntrance = () => {
   }
 
   useEffect(() => {
-    if (isWeb3Enabled && chainID === 31337) {
+    if (isWeb3Enabled && chainId === 5) {
       updateUI();
     }
   }, [isWeb3Enabled]);
