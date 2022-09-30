@@ -4,7 +4,7 @@ import { abi, contractAddresses } from "../constants/index";
 import { ethers } from "ethers";
 import { useNotification } from "@web3uikit/core";
 export const LotteryEntrance = () => {
-  const { chainId: chainID, isWeb3Enabled } = useMoralis();
+  const { chainId: chainID } = useMoralis();
   const [entranceFee, setEntranceFee] = useState("0");
   const [numberOfPlayers, setNumberOfPlayers] = useState("0");
   const [recentWinner, setrecentWinner] = useState("0");
@@ -62,19 +62,23 @@ export const LotteryEntrance = () => {
   };
 
   async function updateUI() {
-    const fee = (await getEntranceFee()).toString();
-    const players = (await getNumberOfPlayers()).toString();
-    const reWinner = (await getRecentWinner()).toString();
-    setEntranceFee(fee);
-    setNumberOfPlayers(players);
-    setrecentWinner(reWinner);
+    try {
+      const fee = (await getEntranceFee()).toString();
+      const players = (await getNumberOfPlayers()).toString();
+      const reWinner = (await getRecentWinner()).toString();
+      setEntranceFee(fee);
+      setNumberOfPlayers(players);
+      setrecentWinner(reWinner);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
-    if (isWeb3Enabled && chainId === 5) {
+    if (lotteryAddress) {
       updateUI();
     }
-  }, [isWeb3Enabled]);
+  }, [lotteryAddress]);
   return (
     <div className=" inline-block p-20">
       {lotteryAddress ? (
